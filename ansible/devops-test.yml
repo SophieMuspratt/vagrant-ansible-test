@@ -1,0 +1,8 @@
+  GNU nano 2.2.6            File: devops-test.yml                               
+
+---
+- hosts:webservers
+  remote_user: vagrant
+
+  tasks:
+   - name:
