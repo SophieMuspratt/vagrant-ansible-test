@@ -1,8 +1,27 @@
-  GNU nano 2.2.6            File: devops-test.yml                               
-
 ---
-- hosts:webservers
+- name: Devops Grad Test
+  hosts: grad-test-remote
   remote_user: vagrant
+  sudo: yes
 
   tasks:
-   - name:
+   - name: Ubuntu Server Version
+     shell: lsb_release -d | awk '{print $2,$3,$4}'
+     register: show_version
+
+   - name: Print Version
+     debug: var=show_version.stdout_lines
+
+   - name: Update Package Lists
+     apt: update_cache=yes
+
+   - name: Packages To Upgrade
+     shell: aptitude -q -F%p --disable-columns search "~U"
+     register: updates
+     changed_when: False
+
+   - name: Print Packages To Upgrade
+     debug: msg="{{ updates.stdout_lines | count }} packages to upgarde ({{ upd$
+
+   - name: Update Packages
+     apt: upgrade=safe
