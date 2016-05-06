@@ -5,12 +5,12 @@
   sudo: yes
 
   tasks:
-   - name: Ubuntu Server Version
+   - name: Ubuntu Server Old Version
      shell: lsb_release -d | awk '{print $2,$3,$4}'
-     register: show_version
+     register: old_version
 
-   - name: Print Version
-     debug: var=show_version.stdout_lines
+   - name: Print Old Version
+     debug: var=old_version.stdout_lines
 
    - name: Update Package Lists
      apt: update_cache=yes
@@ -25,3 +25,10 @@
 
    - name: Update Packages
      apt: upgrade=safe
+
+   - name: Ubuntu Server New Version
+     shell: lsb_release -d | awk '{print $2,$3,$4}'
+     register: new_version
+
+   - name: Print New Version
+     debug: var=new_version.stdout_lines
