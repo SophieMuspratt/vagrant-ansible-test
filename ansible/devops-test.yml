@@ -23,7 +23,7 @@
    - name: Print Packages To Upgrade
      debug: msg="{{ updates.stdout_lines | count }} packages to upgarde ({{ upd$
 
-   - name: Update Packages
+   - name: Upgrade Packages
      apt: upgrade=safe
 
    - name: Ubuntu Server New Version
