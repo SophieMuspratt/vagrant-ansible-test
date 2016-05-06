@@ -31,4 +31,18 @@
      register: new_version
 
    - name: Print New Version
-     debug: var=new_version.stdout_lines
+     debug: msg="Ubuntu has been upgraded from {{ old_version.stdout }} to {{ new_version.stdout }}"
+
+   - name: Packages To Restart
+     shell: checkrestart | grep ^service | awk '{print $2}'
+     register: package_restart
+     changed_when: False
+
+   - name: Print Packages To Restart
+     debug: msg="{{package_restart.stdout_lines | count }} packages to restart ({{ package_restart.stdout_lines | join (', ') }})"
+
+   #Todo - Reboot
+
+   #Todo - Show Uptime
+
+
