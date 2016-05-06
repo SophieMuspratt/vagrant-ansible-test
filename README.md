@@ -10,7 +10,7 @@ Notes from Mike:
 In order to make the project easily runnable I have used vagrant to provision both a ubuntu desktop machine (the control machine that the automation can be run from) and
 a ubuntu server (the remote machine that should be patched and rebooted by the automation.) 
 
-## Setting up the vagrant virtual machines
+# Setting up the vagrant virtual machines
 
 You should be able to set up the two virtual machines described above by running the following command:
 
@@ -25,3 +25,5 @@ the username and password. Once you have logged in you should be able to run the
 cd ansible-test
 ansible-playbook devops-test.yml -i inventory
 ```
+#NOTE!
+Please be patient when running devops-test.yml, It takes a while to run the Upgrade Packages Task but will complete it!
