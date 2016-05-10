@@ -21,7 +21,7 @@
      changed_when: False
 
    - name: Print Packages To Upgrade
-     debug: msg="{{ updates.stdout_lines | count }} packages to upgarde ({{ upd$
+     debug: msg="{{ updates.stdout_lines | count }} packages to upgarde ({{ updates.stdout_lines | join(', ') }})"
 
    - name: Upgrade Packages
      apt: upgrade=safe
@@ -31,15 +31,15 @@
      register: new_version
 
    - name: Print New Version
-     debug: msg="Ubuntu has been upgraded from {{ old_version.stdout }} to {{ n$
+     debug: msg="Ubuntu has been upgraded from {{ old_version.stdout }} to {{ new_version.stdout }}"
 
    - name: Packages To Restart
      shell: checkrestart | grep ^service | awk '{print $2}'
      register: package_restart
      changed_when: False
-     
+
    - name: Print Packages To Restart
-     debug: msg="{{package_restart.stdout_lines | count }} packages to restart $
+     debug: msg="{{package_restart.stdout_lines | count }} packages to restart ({{ package_restart.stdout_lines | join (', ') }})"
 
    - name: Restart Machine
      command: shutdown -r now "Ansible updates triggered"
