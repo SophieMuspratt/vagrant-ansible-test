@@ -17,7 +17,7 @@
 
    - name: Packages To Upgrade
      shell: aptitude -q -F%p --disable-columns search "~U"
-      register: updates
+     register: updates
      changed_when: False
 
    - name: Print Packages To Upgrade
@@ -41,7 +41,6 @@
    - name: Print Packages To Restart
      debug: msg="{{package_restart.stdout_lines | count }} packages to restart $
 
-   #Todo - Reboot
    - name: Restart Machine
      command: shutdown -r now "Ansible updates triggered"
      async: 0
@@ -49,7 +48,17 @@
      ignore_errors: true
 
    - name: Waiting For Server To Reboot
-     local_action: wait_for host={{ remote-provisioner.sh }} state=started
+     local_action:
+       module: wait_for
+         host=192.168.100.101
+         port=22
+         delay=1
+         timeout=300
 
-   #Todo - Show Uptime
+   - name: Uptime
+     command: uptime
+     register: uptime
+
+   - name: Print Uptime
+     debug: var=uptime.stdout_lines
 
