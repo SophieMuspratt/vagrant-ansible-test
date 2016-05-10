@@ -15,4 +15,4 @@ sudo -u vagrant -H sh -c "sudo apt-get install ansible -y --force-yes"
 sudo -u vagrant -H sh -c "mkdir ~/ansible-test"
 sudo -u vagrant -H sh -c "cp /vagrant/ansible/inventory ~/ansible-test/inventory"
 sudo -u vagrant -H sh -c "cp /vagrant/ansible/devops-test.yml ~/ansible-test/devops-test.yml"
-
+sudo -u vagrant -H sh -c "cp /vagrant/ansible/continue-devops-test.yml ~/ansible-test/continue-devops-test.yml"
