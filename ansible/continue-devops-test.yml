@@ -1,0 +1,55 @@
+---
+- name: Devops Grad Test
+  hosts: grad-test-remote
+  remote_user: vagrant
+  sudo: yes
+
+  tasks:
+   - name: Ubuntu Server Old Version
+     shell: lsb_release -d | awk '{print $2,$3,$4}'
+     register: old_version
+
+   - name: Print Old Version
+     debug: var=old_version.stdout_lines
+
+   - name: Update Package Lists
+     apt: update_cache=yes
+
+   - name: Packages To Upgrade
+     shell: aptitude -q -F%p --disable-columns search "~U"
+      register: updates
+     changed_when: False
+
+   - name: Print Packages To Upgrade
+     debug: msg="{{ updates.stdout_lines | count }} packages to upgarde ({{ upd$
+
+   - name: Upgrade Packages
+     apt: upgrade=safe
+
+   - name: Ubuntu Server New Version
+     shell: lsb_release -d | awk '{print $2,$3,$4}'
+     register: new_version
+
+   - name: Print New Version
+     debug: msg="Ubuntu has been upgraded from {{ old_version.stdout }} to {{ n$
+
+   - name: Packages To Restart
+     shell: checkrestart | grep ^service | awk '{print $2}'
+     register: package_restart
+     changed_when: False
+     
+   - name: Print Packages To Restart
+     debug: msg="{{package_restart.stdout_lines | count }} packages to restart $
+
+   #Todo - Reboot
+   - name: Restart Machine
+     command: shutdown -r now "Ansible updates triggered"
+     async: 0
+     poll: 0
+     ignore_errors: true
+
+   - name: Waiting For Server To Reboot
+     local_action: wait_for host={{ remote-provisioner.sh }} state=started
+
+   #Todo - Show Uptime
+
